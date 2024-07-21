@@ -1,0 +1,120 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validators.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/18 13:22:58 by akostian          #+#    #+#             */
+/*   Updated: 2024/07/21 22:37:18 by akostian         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "so_long.h"
+
+int	mapname_is_valid(char *mapname)
+{
+	size_t	mapname_len;
+	size_t	i;
+
+	mapname_len = ft_strlen(mapname);
+	i = ft_strlen(MAP_EXTENSION);
+	if (mapname_len < i)
+		return (0);
+	while (i)
+		if (mapname[mapname_len--] != MAP_EXTENSION[i--])
+			return (0);
+	return (1);
+}
+
+void	flood_fill(char **map, int x, int y)
+{
+	if (map[x][y] == '1' || map[x][y] == '*')
+		return ;
+	map[x][y] = '*';
+	flood_fill(map, x + 1, y);
+	flood_fill(map, x - 1, y);
+	flood_fill(map, x, y + 1);
+	flood_fill(map, x, y - 1);
+}
+
+int	map_is_completable(t_map *map)
+{
+	char	**flooded_map;
+	int		i;
+	int		j;
+
+	flooded_map = matrix_dup(map->map, map->height);
+	flood_fill(flooded_map, map->player_x, map->player_y);
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (flooded_map[i][++j])
+			if (flooded_map[i][j] == 'E' || flooded_map[i][j] == 'C')
+				return (0);
+	}
+	i = -1;
+	while (++i < map->height)
+		free(flooded_map[i]);
+	free(flooded_map);
+	return (1);
+}
+
+// NOT ACCORDING TO NORMS
+int	find_objectives(t_map *map)
+{
+	int	i;
+	int	j;
+
+	map->player_x = 0;
+	map->exit_x = 0;
+	map->collectibles_n = 0;
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (map->map[i][++j])
+		{
+			if (map->map[i][j] == 'C')
+				map->collectibles_n += 1;
+			if (map->map[i][j] == 'P')
+			{
+				if (map->player_x)
+					return (0);
+				map->player_x = i;
+				map->player_y = j;
+			}
+			if (map->map[i][j] == 'E')
+			{
+				if (map->exit_x)
+					return (0);
+				map->exit_x = i;
+				map->exit_y = j;
+			}
+		}
+	}
+	return (map->player_x && map->exit_x && map->collectibles_n > 0);
+}
+
+int	map_is_valid(t_map *map)
+{
+	int	i;
+	int	j;
+
+	map->width = -1;
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (map->map[i][++j])
+			if ((i == 0 || j == 0) && (map->map[i][j] != '1'))
+				return (0);
+		if (map->width >= 0 && map->width != j)
+			return (0);
+		map->width = j;
+	}
+	if (find_objectives(map))
+		return (map_is_completable(map));
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:12:53 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/24 16:32:26 by akostian         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:58:04 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,24 @@ void	free_game(t_game *game)
 
 int	return_error(t_game *game, int code)
 {
-	printf("Error\n");
+	ft_printf("Error\n");
 	if (code == INCORRECT_ARGC_ERROR_CODE)
-		printf(INCORRECT_ARGC_MESSAGE);
+		ft_printf(INCORRECT_ARGC_MESSAGE);
 	if (code == INCORRECT_MAP_PATH_ERROR_CODE)
-		printf(INCORRECT_MAP_PATH_ERROR_MESSAGE);
+		ft_printf(INCORRECT_MAP_PATH_ERROR_MESSAGE);
 	if (code == MALLOC_ERROR_CODE)
-		printf(MALLOC_MESSAGE);
+		ft_printf(MALLOC_MESSAGE);
 	if (code >= MLX_WINDOW_ERROR_CODE)
 		free(game->mlx_ptr);
 	if (code >= MAP_IS_INVALID_ERROR_CODE)
 	{
 		free_game(game);
-		printf("ERROR OCCURED");
+		if (code == MLX_INIT_ERROR_CODE)
+			ft_printf(MLX_INIT_ERROR_MESSAGE);
+		if (code == MLX_WINDOW_ERROR_CODE)
+			ft_printf(MLX_WINDOW_ERROR_MESSAGE);
+		if (code == MLX_IMAGES_ERROR_CODE)
+			ft_printf(MLX_IMAGES_ERROR_MESSAGE);
 	}
 	exit(0);
 	return (-1);

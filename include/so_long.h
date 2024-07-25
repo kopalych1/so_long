@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:15:30 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/24 16:30:11 by akostian         ###   ########.fr       */
+/*   Updated: 2024/07/25 16:59:23 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../mlx/mlx.h"
 # include <X11/X.h>
 # include <X11/keysym.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include "../libft/include/libft.h"
 
@@ -41,6 +40,9 @@
 
 # define MLX_WINDOW_ERROR_CODE 6
 # define MLX_WINDOW_ERROR_MESSAGE "ERROR WITH MLX WINDOW\n"
+
+# define MLX_IMAGES_ERROR_CODE 7
+# define MLX_IMAGES_ERROR_MESSAGE "ERROR WITH LOADING IMAGES\n"
 
 /* CONTROL KEYS */
 
@@ -93,12 +95,13 @@ typedef struct s_game
 	void	(*game_init)(struct s_game *self);
 	void	(*game_draw_map)(struct s_game *self);
 	int		(*game_move_player)(t_map *map, int keysym);
+	void	(*game_verify_images)(struct s_game *self);
 }	t_game;
 
 void	game_init(t_game *self);
 void	game_draw_map(t_game *self);
 int		game_move_player(t_map *map, int keysym);
-
+void	game_verify_images(t_game *self);
 /* FUNCS */
 
 int		return_error(t_game *game, int code);

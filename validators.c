@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:22:58 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/24 16:12:29 by akostian         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:01:10 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	map_is_valid(t_map *map)
 
 	if (map->width > MAX_WINDOW_WIDTH / IMG_WIDTH
 		|| map->height > MAX_WINDOW_HEIGHT / IMG_WIDTH)
-			return (0);
+		return (0);
 	map->width = -1;
 	i = -1;
 	while (++i < map->height)

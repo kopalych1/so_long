@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 07:48:44 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/25 16:23:53 by akostian         ###   ########.fr       */
+/*   Updated: 2024/07/25 17:00:47 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	game_init(t_game *self)
 {
 	self->game_draw_map = game_draw_map;
 	self->game_move_player = game_move_player;
+	self->game_verify_images = game_verify_images;
 	self->img_width = IMG_WIDTH;
 	self->move_count = 0;
 	self->collectibles_count = 0;
@@ -95,4 +96,16 @@ void	game_init(t_game *self)
 			&self->img_width, &self->img_width);
 	self->player_img = mlx_xpm_file_to_image(self->mlx_ptr, "images/player.xpm",
 			&self->img_width, &self->img_width);
+	self->game_verify_images(self);
+}
+
+void	game_verify_images(t_game *self)
+{
+	if (!self->coll_img
+		|| !self->exit_img
+		|| !self->floor_img
+		|| !self->wall_img
+		|| !self->floor_img
+		|| !self->player_img)
+		return_error(self, MLX_IMAGES_ERROR_CODE);
 }

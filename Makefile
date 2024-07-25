@@ -6,14 +6,20 @@
 #    By: akostian <akostian@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 14:18:31 by akostian          #+#    #+#              #
-#    Updated: 2024/07/24 16:21:24 by akostian         ###   ########.fr        #
+#    Updated: 2024/07/25 17:14:15 by akostian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME		= so_long
 
-SRCS		= main.c libft.c parser.c validators.c is_control_key.c game_methods.c mapname_is_valid.c
+SRCS		= src/main.c \
+			  src/libft.c \
+			  src/parser.c \
+			  src/validators.c \
+			  src/is_control_key.c \
+			  src/game_methods.c \
+			  src/mapname_is_valid.c
 
 INCLUDES	= -Iinclude
 

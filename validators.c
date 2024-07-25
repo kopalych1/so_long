@@ -6,26 +6,11 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:22:58 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/21 22:37:18 by akostian         ###   ########.fr       */
+/*   Updated: 2024/07/24 16:12:29 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
-
-int	mapname_is_valid(char *mapname)
-{
-	size_t	mapname_len;
-	size_t	i;
-
-	mapname_len = ft_strlen(mapname);
-	i = ft_strlen(MAP_EXTENSION);
-	if (mapname_len < i)
-		return (0);
-	while (i)
-		if (mapname[mapname_len--] != MAP_EXTENSION[i--])
-			return (0);
-	return (1);
-}
 
 void	flood_fill(char **map, int x, int y)
 {
@@ -61,13 +46,36 @@ int	map_is_completable(t_map *map)
 	return (1);
 }
 
-// NOT ACCORDING TO NORMS
-int	find_objectives(t_map *map)
+// Has to be a separate function, because of the norms
+int	find_player(t_map *map)
 {
 	int	i;
 	int	j;
 
 	map->player_x = 0;
+	i = -1;
+	while (++i < map->height)
+	{
+		j = -1;
+		while (map->map[i][++j])
+		{
+			if (map->map[i][j] == 'P')
+			{
+				if (map->player_x)
+					return (0);
+				map->player_x = i;
+				map->player_y = j;
+			}
+		}
+	}
+	return (map->player_x);
+}
+
+int	find_objectives(t_map *map)
+{
+	int	i;
+	int	j;
+
 	map->exit_x = 0;
 	map->collectibles_n = 0;
 	i = -1;
@@ -78,13 +86,6 @@ int	find_objectives(t_map *map)
 		{
 			if (map->map[i][j] == 'C')
 				map->collectibles_n += 1;
-			if (map->map[i][j] == 'P')
-			{
-				if (map->player_x)
-					return (0);
-				map->player_x = i;
-				map->player_y = j;
-			}
 			if (map->map[i][j] == 'E')
 			{
 				if (map->exit_x)
@@ -94,7 +95,7 @@ int	find_objectives(t_map *map)
 			}
 		}
 	}
-	return (map->player_x && map->exit_x && map->collectibles_n > 0);
+	return (map->exit_x && (map->collectibles_n > 0));
 }
 
 int	map_is_valid(t_map *map)
@@ -102,6 +103,9 @@ int	map_is_valid(t_map *map)
 	int	i;
 	int	j;
 
+	if (map->width > MAX_WINDOW_WIDTH / IMG_WIDTH
+		|| map->height > MAX_WINDOW_HEIGHT / IMG_WIDTH)
+			return (0);
 	map->width = -1;
 	i = -1;
 	while (++i < map->height)
@@ -114,7 +118,7 @@ int	map_is_valid(t_map *map)
 			return (0);
 		map->width = j;
 	}
-	if (find_objectives(map))
+	if (find_player(map) && find_objectives(map))
 		return (map_is_completable(map));
 	return (0);
 }

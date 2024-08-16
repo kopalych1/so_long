@@ -6,11 +6,11 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 13:43:13 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/24 13:43:54 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:39:46 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	mapname_is_valid(char *mapname)
 {

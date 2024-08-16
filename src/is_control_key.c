@@ -6,11 +6,11 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 03:23:34 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/24 03:30:26 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:39:39 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	is_control_key(int keysym)
 {

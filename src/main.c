@@ -6,11 +6,11 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:12:53 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/25 16:58:04 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:39:34 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	free_game(t_game *game)
 {

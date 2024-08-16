@@ -6,11 +6,11 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:38:13 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/21 22:34:22 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:39:37 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 char	**matrix_dup(char **arr, size_t size)
 {

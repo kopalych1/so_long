@@ -6,55 +6,86 @@
 #    By: akostian <akostian@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 14:18:31 by akostian          #+#    #+#              #
-#    Updated: 2024/07/25 17:14:15 by akostian         ###   ########.fr        #
+#    Updated: 2024/08/16 13:40:57 by akostian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME		= so_long
 
-SRCS		= src/main.c \
-			  src/libft.c \
-			  src/parser.c \
-			  src/validators.c \
-			  src/is_control_key.c \
-			  src/game_methods.c \
-			  src/mapname_is_valid.c
+SRC_DIR		= src
+SRCS		= main.c \
+			  libft.c \
+			  parser.c \
+			  map_validators.c \
+			  is_control_key.c \
+			  game_methods.c \
+			  mapname_is_valid.c
 
 INCLUDES	= -Iinclude
+
+BUILD_DIR	= build
+LIBFT_DIR	= libft
+OBJS		= $(addprefix $(BUILD_DIR)/, $(SRCS:%.c=%.o))
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror
 
+RM			= rm -rf
 
 # MLX FLAGS FOR LINUX
 MLX_FLAGS	= -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
 
+# MLX COMPILE FLAGS FOR LINUX
+MLX_C_FLAGS	= -I/usr/include -Imlx_linux -O3
 
-RM			= rm -f
+MLX_PATH	= mlx/
+MLX_LIB		= $(MLX_PATH)libmlx_Linux.a
 
-MLX_PATH = mlx/
-MLX_LIB = $(MLX_PATH)libmlx_Linux.a
 
-all:
+
+all: $(NAME)
+#
+
+
+$(NAME): $(OBJS)
+	make -C $(LIBFT_DIR)
 	make -C $(MLX_PATH)
-	make -C libft/
-	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(SRCS) $(MLX_FLAGS) $(MLX_LIB) libft/libft.a
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+	$(CC) $(CFLAGS) $(INCLUDES) -o $(NAME) $(OBJS) $(MLX_FLAGS) $(MLX_LIB) $(LIBFT_DIR)/libft.a
+#
+
+
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+#
+
+
+$(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
+
+	$(CC) $(CFLAGS) $(MLX_C_FLAGS) -c $< -o $@
+#
+
 
 clean:
-	make clean -C libft/
+	make clean -C $(LIBFT_DIR)
 	make clean -C $(MLX_PATH)
 
-fclean: clean
-	make fclean -C libft/
-	make clean -C $(MLX_PATH)
-	$(RM) $(MLX_LIB)
+	$(RM) $(BUILD_DIR)
+#
 
-	$(RM) $(NAME)
+
+fclean:
+	make fclean -C $(LIBFT_DIR)
+	make clean -C $(MLX_PATH)
+
+	$(RM) $(BUILD_DIR) $(MLX_LIB) $(NAME)
+#
+
 
 re: fclean all
+#
+
+
 
 .PHONY: all clean fclean re

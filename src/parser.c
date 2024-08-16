@@ -6,11 +6,11 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 22:55:47 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/21 22:33:59 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:39:48 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 int	read_map(t_game *game, const char *map_path)
 {

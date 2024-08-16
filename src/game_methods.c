@@ -6,11 +6,11 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 07:48:44 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/25 17:00:47 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 13:39:43 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "../include/so_long.h"
 
 void	game_draw_map(t_game *self)
 {

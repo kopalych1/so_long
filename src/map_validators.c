@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/18 13:22:58 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/16 13:39:25 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 17:49:03 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	map_is_completable(t_map *map)
 	int		j;
 
 	flooded_map = matrix_dup(map->map, map->height);
+	if (!flooded_map)
+		return (ft_printf("Error\n"MALLOC_ERROR_MESSAGE), 0);
 	flood_fill(flooded_map, map->player_x, map->player_y);
 	i = -1;
 	while (++i < map->height)
@@ -103,9 +105,6 @@ int	map_is_valid(t_map *map)
 	int	i;
 	int	j;
 
-	if (map->width > MAX_WINDOW_WIDTH / IMG_WIDTH
-		|| map->height > MAX_WINDOW_HEIGHT / IMG_WIDTH)
-		return (0);
 	map->width = -1;
 	i = -1;
 	while (++i < map->height)
@@ -113,12 +112,16 @@ int	map_is_valid(t_map *map)
 		j = -1;
 		while (map->map[i][++j])
 			if ((i == 0 || j == 0) && (map->map[i][j] != '1'))
-				return (0);
+				return (ft_printf("Error\n"MAP_IS_INVALID_ERROR_MESSAGE), 0);
 		if (map->width >= 0 && map->width != j)
-			return (0);
+			return (ft_printf("Error\n"MAP_IS_NOT_RECTANGULAR_ERROR_MESSAGE),
+				0);
 		map->width = j;
 	}
+	if (map->width > MAX_WINDOW_WIDTH / IMG_WIDTH
+		|| map->height > MAX_WINDOW_HEIGHT / IMG_WIDTH)
+		return (ft_printf("Error\n"MAP_IS_TOO_BIG_ERROR_MESSAGE), 0);
 	if (find_player(map) && find_objectives(map))
 		return (map_is_completable(map));
-	return (0);
+	return (ft_printf("Error\n"MAP_IS_INVALID_ERROR_MESSAGE), 0);
 }

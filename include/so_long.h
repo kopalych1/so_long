@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:15:30 by akostian          #+#    #+#             */
-/*   Updated: 2024/07/25 16:59:23 by akostian         ###   ########.fr       */
+/*   Updated: 2024/08/16 18:26:42 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,16 @@
 
 /* ERRORS */
 
-# define MALLOC_ERROR_CODE 1
-# define MALLOC_MESSAGE "MALLOC ERROR\n"
+# define MALLOC_ERROR_MESSAGE "MALLOC ERROR\n"
 
-# define INCORRECT_ARGC_ERROR_CODE 2
-# define INCORRECT_ARGC_MESSAGE "INCORRECT ARGC\n"
+# define INCORRECT_ARGC_MESSAGE "INCORRECT ARGUMENTS\n"
 
-# define INCORRECT_MAP_PATH_ERROR_CODE 3
-# define INCORRECT_MAP_PATH_ERROR_MESSAGE "MAP NAME IS TERRIBLE\n"
+# define INCORRECT_MAP_EXTENSION_ERROR_MESSAGE "MAP NAME IS INCORRECT\n"
 
-# define MAP_IS_INVALID_ERROR_CODE 4
 # define MAP_IS_INVALID_ERROR_MESSAGE "MAP IS INVALID\n"
+# define MAP_IS_TOO_BIG_ERROR_MESSAGE "MAP IS TOO BIG\n"
+# define MAP_IS_NOT_COMPLETABLE_ERROR_MESSAGE "Map IS NOT COMPLETABLE\n"
+# define MAP_IS_NOT_RECTANGULAR_ERROR_MESSAGE "Map IS NOT RECTANGULAR\n"
 
 # define MLX_INIT_ERROR_CODE 5
 # define MLX_INIT_ERROR_MESSAGE "ERROR WITH MLX INIT\n"
@@ -76,7 +75,6 @@ typedef struct s_map
 	int		player_y;
 	int		exit_x;
 	int		exit_y;
-	void	(*__init__)(struct s_map *self);
 }	t_map;
 
 typedef struct s_game
@@ -104,7 +102,7 @@ int		game_move_player(t_map *map, int keysym);
 void	game_verify_images(t_game *self);
 /* FUNCS */
 
-int		return_error(t_game *game, int code);
+void	return_error(t_game *game, int code);
 int		read_map(t_game *game, const char *map_path);
 int		is_control_key(int keysym);
 int		mapname_is_valid(char *mapname);
@@ -112,6 +110,7 @@ int		map_is_valid(t_map *map);
 
 /* ADD TO LIBFT? */
 
+void	free_arr(char **arr, size_t size);
 char	**matrix_dup(char **arr, size_t size);
 int		append_str_to_arr(char ***arr, size_t *size, char *new_str);
 

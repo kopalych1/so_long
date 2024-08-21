@@ -23,8 +23,6 @@ void	free_game(t_game *game)
 	free(game->map);
 	if (game->mlx_ptr)
 		free(game->mlx_ptr);
-	if (game->win_ptr)
-		free(game->win_ptr);
 	if (game->wall_img)
 		free(game->wall_img);
 	if (game->floor_img)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 17:38:13 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/16 16:51:01 by akostian         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:48:32 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	**matrix_dup(char **arr, size_t size)
 	while (i < size)
 	{
 		arr_cpy[i] = ft_strdup(arr[i]);
+		if (!arr_cpy[i])
+			return (free_arr(arr_cpy, i), NULL);
 		i++;
 	}
 	return (arr_cpy);

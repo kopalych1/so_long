@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:15:30 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/16 18:26:42 by akostian         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:31:16 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define SO_LONG_H
 
 # include "../mlx/mlx.h"
-# include <X11/X.h>
-# include <X11/keysym.h>
 # include <fcntl.h>
 # include "../libft/include/libft.h"
 
@@ -25,11 +23,14 @@
 
 # define MALLOC_ERROR_MESSAGE "MALLOC ERROR\n"
 
+# define MAP_OPEN_ERROR_MESSAGE "UNABLE TO OPEN MAP\n"
+
 # define INCORRECT_ARGC_MESSAGE "INCORRECT ARGUMENTS\n"
 
 # define INCORRECT_MAP_EXTENSION_ERROR_MESSAGE "MAP NAME IS INCORRECT\n"
 
 # define MAP_IS_INVALID_ERROR_MESSAGE "MAP IS INVALID\n"
+# define WALLS_INVALID_ERROR_MESSAGE "WALLS_ARE INVALID\n"
 # define MAP_IS_TOO_BIG_ERROR_MESSAGE "MAP IS TOO BIG\n"
 # define MAP_IS_NOT_COMPLETABLE_ERROR_MESSAGE "Map IS NOT COMPLETABLE\n"
 # define MAP_IS_NOT_RECTANGULAR_ERROR_MESSAGE "Map IS NOT RECTANGULAR\n"
@@ -96,10 +97,12 @@ typedef struct s_game
 	void	(*game_verify_images)(struct s_game *self);
 }	t_game;
 
+void	game_vars_init(t_game *self);
 void	game_init(t_game *self);
 void	game_draw_map(t_game *self);
 int		game_move_player(t_map *map, int keysym);
 void	game_verify_images(t_game *self);
+
 /* FUNCS */
 
 void	return_error(t_game *game, int code);
@@ -108,7 +111,12 @@ int		is_control_key(int keysym);
 int		mapname_is_valid(char *mapname);
 int		map_is_valid(t_map *map);
 
-/* ADD TO LIBFT? */
+/* FIND OBJECTIVES */
+
+int		find_player(t_map *map);
+int		find_objectives(t_map *map);
+
+/* UTILS */
 
 void	free_arr(char **arr, size_t size);
 char	**matrix_dup(char **arr, size_t size);

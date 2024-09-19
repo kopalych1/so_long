@@ -6,7 +6,7 @@
 #    By: akostian <akostian@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 14:18:31 by akostian          #+#    #+#              #
-#    Updated: 2024/08/16 13:40:57 by akostian         ###   ########.fr        #
+#    Updated: 2024/09/19 14:29:58 by akostian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@ NAME		= so_long
 
 SRC_DIR		= src
 SRCS		= main.c \
-			  libft.c \
+			  utils.c \
 			  parser.c \
+			  find_objectives.c \
 			  map_validators.c \
 			  is_control_key.c \
 			  game_methods.c \
@@ -29,7 +30,7 @@ LIBFT_DIR	= libft
 OBJS		= $(addprefix $(BUILD_DIR)/, $(SRCS:%.c=%.o))
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g3
 
 RM			= rm -rf
 

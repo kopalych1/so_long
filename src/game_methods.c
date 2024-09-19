@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 07:48:44 by akostian          #+#    #+#             */
-/*   Updated: 2024/08/16 13:39:43 by akostian         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:35:45 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 void	game_draw_map(t_game *self)
 {
-	int		i;
-	int		j;
+	int		y;
+	int		x;
 
-	i = -1;
-	while (++i < self->map->height)
+	y = -1;
+	while (++y < self->map->height)
 	{
-		j = -1;
-		while (++j < self->map->width)
+		x = -1;
+		while (++x < self->map->width)
 		{
 			mlx_put_image_to_window(self->mlx_ptr, self->win_ptr,
-				self->floor_img, j * self->img_width, i * self->img_width);
-			if (self->map->map[i][j] == '1')
+				self->floor_img, x * self->img_width, y * self->img_width);
+			if (self->map->map[y][x] == '1')
 				mlx_put_image_to_window(self->mlx_ptr, self->win_ptr,
-					self->wall_img, j * self->img_width, i * self->img_width);
-			if (self->map->map[i][j] == 'C')
+					self->wall_img, x * self->img_width, y * self->img_width);
+			if (self->map->map[y][x] == 'C')
 				mlx_put_image_to_window(self->mlx_ptr, self->win_ptr,
-					self->coll_img, j * self->img_width, i * self->img_width);
-			if (self->map->map[i][j] == 'P')
+					self->coll_img, x * self->img_width, y * self->img_width);
+			if (self->map->map[y][x] == 'P')
 				mlx_put_image_to_window(self->mlx_ptr, self->win_ptr,
-					self->player_img, j * self->img_width, i * self->img_width);
-			if (self->map->map[i][j] == 'E')
+					self->player_img, x * self->img_width, y * self->img_width);
+			if (self->map->map[y][x] == 'E')
 				mlx_put_image_to_window(self->mlx_ptr, self->win_ptr,
-					self->exit_img, j * self->img_width, i * self->img_width);
+					self->exit_img, x * self->img_width, y * self->img_width);
 		}
 	}
 }
@@ -48,36 +48,49 @@ int	game_move_player(t_map *map, int keysym)
 	int		old_player_x;
 	int		old_player_y;
 
-	current_char = &(map->map[map->player_x][map->player_y]);
+	current_char = &(map->map[map->player_y][map->player_x]);
 	old_player_x = map->player_x;
 	old_player_y = map->player_y;
 	if (keysym == D_KEY || keysym == RIGHT_ARROW_KEY)
-		if (map->map[map->player_x][map->player_y + 1] != '1')
-			map->player_y += 1;
-	if (keysym == A_KEY || keysym == LEFT_ARROW_KEY)
-		if (map->map[map->player_x][map->player_y - 1] != '1')
-			map->player_y -= 1;
-	if (keysym == S_KEY || keysym == DOWN_ARROW_KEY)
-		if (map->map[map->player_x + 1][map->player_y] != '1')
+		if (map->map[map->player_y][map->player_x + 1] != '1')
 			map->player_x += 1;
-	if (keysym == W_KEY || keysym == UP_ARROW_KEY)
-		if (map->map[map->player_x - 1][map->player_y] != '1')
+	if (keysym == A_KEY || keysym == LEFT_ARROW_KEY)
+		if (map->map[map->player_y][map->player_x - 1] != '1')
 			map->player_x -= 1;
+	if (keysym == S_KEY || keysym == DOWN_ARROW_KEY)
+		if (map->map[map->player_y + 1][map->player_x] != '1')
+			map->player_y += 1;
+	if (keysym == W_KEY || keysym == UP_ARROW_KEY)
+		if (map->map[map->player_y - 1][map->player_x] != '1')
+			map->player_y -= 1;
 	*current_char = '0';
-	is_collectible = (map->map[map->player_x][map->player_y] == 'C');
-	map->map[map->player_x][map->player_y] = 'P';
+	is_collectible = (map->map[map->player_y][map->player_x] == 'C');
+	map->map[map->player_y][map->player_x] = 'P';
 	return (is_collectible + ((old_player_x != map->player_x)
 			|| (old_player_y != map->player_y)));
 }
 
-void	game_init(t_game *self)
+void	game_vars_init(t_game *self)
 {
+	self->game_init = game_init;
 	self->game_draw_map = game_draw_map;
 	self->game_move_player = game_move_player;
 	self->game_verify_images = game_verify_images;
+	self->mlx_ptr = NULL;
+	self->win_ptr = NULL;
+	self->map = NULL;
 	self->img_width = IMG_WIDTH;
 	self->move_count = 0;
+	self->coll_img = NULL;
+	self->floor_img = NULL;
+	self->player_img = NULL;
+	self->wall_img = NULL;
+	self->exit_img = NULL;
 	self->collectibles_count = 0;
+}
+
+void	game_init(t_game *self)
+{
 	self->mlx_ptr = mlx_init();
 	if (!self->mlx_ptr)
 		return_error(self, MLX_INIT_ERROR_CODE);

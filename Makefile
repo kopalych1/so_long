@@ -6,7 +6,7 @@
 #    By: akostian <akostian@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/07/22 14:18:31 by akostian          #+#    #+#              #
-#    Updated: 2024/09/19 14:29:58 by akostian         ###   ########.fr        #
+#    Updated: 2024/10/01 15:40:33 by akostian         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,20 +29,51 @@ BUILD_DIR	= build
 LIBFT_DIR	= libft
 OBJS		= $(addprefix $(BUILD_DIR)/, $(SRCS:%.c=%.o))
 
-CC			= gcc
+CC			= cc
 CFLAGS		= -Wall -Wextra -Werror -g3
 
 RM			= rm -rf
 
+
+UNAME		= $(shell uname -s)
+
 # MLX FLAGS FOR LINUX
-MLX_FLAGS	= -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
+ifeq ($(UNAME), Linux)
+	MLX_FLAGS		= -Lmlx -lmlx -L/usr/lib/X11 -lXext -lX11
+	MLX_C_INC		= -I/usr/include -Imlx_linux -O3
+	MLX_PATH		= mlx/
+	MLX_LIB			= $(MLX_PATH)libmlx_Linux.a
 
-# MLX COMPILE FLAGS FOR LINUX
-MLX_C_FLAGS	= -I/usr/include -Imlx_linux -O3
+	KEYS			= -D W_KEY=119 \
+					  -D A_KEY=97 \
+					  -D S_KEY=115 \
+					  -D D_KEY=100 \
+					  -D Q_KEY=113 \
+					  -D ESC_KEY=65307 \
+					  -D UP_ARROW_KEY=65362 \
+					  -D LEFT_ARROW_KEY=65361 \
+					  -D DOWN_ARROW_KEY=65364 \
+					  -D RIGHT_ARROW_KEY=65363
 
-MLX_PATH	= mlx/
-MLX_LIB		= $(MLX_PATH)libmlx_Linux.a
+# MLX FLAGS FOR MACOS
+else
+	MLX_FLAGS		= -Lmlx_macos -lmlx -framework OpenGL -framework AppKit
+	MLX_C_INC		= -Imlx_macos
+	MLX_PATH		= mlx_macos/
+	MLX_LIB			= $(MLX_PATH)libmlx.a
 
+	KEYS			= -D W_KEY=13 \
+					  -D A_KEY=0 \
+					  -D S_KEY=1 \
+					  -D D_KEY=2 \
+					  -D Q_KEY=12 \
+					  -D ESC_KEY=53 \
+					  -D UP_ARROW_KEY=126 \
+					  -D LEFT_ARROW_KEY=123 \
+					  -D DOWN_ARROW_KEY=125 \
+					  -D RIGHT_ARROW_KEY=124
+
+endif
 
 
 all: $(NAME)
@@ -64,7 +95,7 @@ $(BUILD_DIR):
 
 $(OBJS): $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c | $(BUILD_DIR)
 
-	$(CC) $(CFLAGS) $(MLX_C_FLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(KEYS) $(MLX_C_INC) -c $< -o $@
 #
 
 

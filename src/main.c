@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:12:53 by akostian          #+#    #+#             */
-/*   Updated: 2024/09/19 16:34:14 by akostian         ###   ########.fr       */
+/*   Updated: 2024/10/01 15:08:35 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	return_error(t_game *game, int code)
 int	on_destroy(t_game *game)
 {
 	mlx_destroy_window(game->mlx_ptr, game->win_ptr);
-	mlx_destroy_display(game->mlx_ptr);
 	free_game(game);
 	exit(0);
 	return (0);

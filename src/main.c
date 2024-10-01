@@ -6,7 +6,7 @@
 /*   By: akostian <akostian@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 21:12:53 by akostian          #+#    #+#             */
-/*   Updated: 2024/10/01 15:08:35 by akostian         ###   ########.fr       */
+/*   Updated: 2024/10/01 16:07:54 by akostian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ int	on_keypress(int keysym, t_game *game)
 		return (0);
 	game->collectibles_count += (move_code_return > 1);
 	game->move_count += (move_code_return >= 1);
+	ft_printf("Counter: %d\n", game->move_count);
 	if (!(game->map->player_x == game->map->exit_x
 			&& game->map->player_y == game->map->exit_y))
 		game->map->map[game->map->exit_y][game->map->exit_x] = 'E';
 	else if (game->collectibles_count == game->map->collectibles_n)
 		on_destroy(game);
 	game->game_draw_map(game);
-	ft_printf("Counter: %d\n", game->move_count);
 	return (0);
 }
 
